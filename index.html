@@ -1,0 +1,417 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Ren Suzu</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500&display=swap">
+<style>
+/* Concept : une candidature à deux voix. Ren est le jour (brume claire, pétales), Ken est la nuit (encre sombre, cendres). Un interrupteur change tout le décor. */
+:root {
+  --bg: #eef4f1;
+  --bg2: #e1ebe7;
+  --fg: #10272a;
+  --soft: #2c4a4d;
+  --muted: #4f686c;
+  --line: rgba(16, 39, 42, .18);
+  --accent: #b2406f;
+  --on-accent: #ffffff;
+  --accent2: #4f7f6e;
+  --hero-a: #d3e6e0;
+  --kanji: rgba(178, 64, 111, .16);
+  --ren-c: #b2406f;
+  --ken-c: #b8481f;
+  --display: 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', Georgia, serif;
+  --body: 'Zen Kaku Gothic New', 'Hiragino Sans', 'Yu Gothic', system-ui, sans-serif;
+  color-scheme: light;
+}
+:root[data-mode="ken"] {
+  --bg: #0c1214;
+  --bg2: #141d20;
+  --fg: #e8eeee;
+  --soft: #c3d0d0;
+  --muted: #92a6a8;
+  --line: rgba(232, 238, 238, .16);
+  --accent: #ef7a55;
+  --on-accent: #1a0d08;
+  --accent2: #8fa9ad;
+  --hero-a: #1d2a2d;
+  --kanji: rgba(239, 122, 85, .16);
+  --ren-c: #e58aae;
+  --ken-c: #ef7a55;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 1.0625rem/1.75 var(--body);
+  -webkit-text-size-adjust: 100%;
+  transition: background-color .6s ease, color .6s ease;
+}
+:root:not([data-mode="ken"]) [data-only="ken"], :root[data-mode="ken"] [data-only="ren"] { display: none !important; }
+.wrap {
+  width: min(100%, 1080px);
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { font-family: var(--display); font-weight: 700; margin: 0; text-wrap: balance; }
+h2 { font-size: clamp(1.9rem, 5.4vw, 3rem); line-height: 1.15; }
+h3 { font-size: 1.25rem; line-height: 1.3; }
+p { margin: 0 0 1.1em; max-width: 62ch; color: var(--soft); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.eyebrow { display: flex; align-items: baseline; gap: .8rem; margin: 0 0 1.1rem; font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+.eyebrow .k { font-family: var(--display); font-size: 1.5rem; letter-spacing: 0; text-transform: none; color: var(--accent); }
+
+/* HRP */
+.hrp { background: var(--bg2); border-bottom: 1px solid var(--line); font-size: .92rem; transition: background-color .6s ease; }
+.hrp-in { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 2rem; padding-block: .8rem; }
+.hrp-tag { font-size: .7rem; font-weight: 500; letter-spacing: .2em; color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: .1rem .75rem; }
+.hrp-list { display: flex; flex-wrap: wrap; gap: .4rem 2rem; margin: 0; }
+.hrp-list > div { display: flex; flex-wrap: wrap; align-items: baseline; gap: .1rem .6rem; min-width: 0; }
+.hrp-list dt { font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.hrp-list dd { display: flex; align-items: baseline; gap: .6rem; margin: 0; min-width: 0; }
+.hrp-list code { font: 500 1rem var(--body); color: var(--fg); overflow-wrap: anywhere; }
+.copy { font: 500 .75rem var(--body); letter-spacing: .06em; color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: .15rem .7rem; cursor: pointer; }
+.copy:hover { color: var(--accent); border-color: var(--accent); }
+
+/* Hero */
+.hero { position: relative; overflow: hidden; background: radial-gradient(120% 90% at 85% 0%, var(--hero-a) 0%, var(--bg) 62%); transition: background .6s ease; }
+.hero .wrap { position: relative; z-index: 2; padding-block: clamp(24px, 4vw, 40px) clamp(44px, 7vw, 80px); }
+#petals { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+.vert { position: absolute; z-index: 1; top: 0; right: max(10px, env(safe-area-inset-right, 0px)); writing-mode: vertical-rl; font-family: var(--display); font-weight: 700; font-size: clamp(5rem, 20vw, 11rem); line-height: 1.05; padding-top: 5.5rem; color: var(--kanji); pointer-events: none; user-select: none; }
+.bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .8rem 1.4rem; }
+.topnav { display: flex; flex-wrap: wrap; gap: .3rem 1.3rem; font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; }
+.topnav a { text-decoration: none; color: var(--muted); padding-block: .3rem; }
+.topnav a:hover { color: var(--accent); }
+.switch { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; background: var(--bg2); transition: background-color .6s ease; }
+.switch button { font: 500 .9rem var(--body); letter-spacing: .04em; color: var(--muted); background: transparent; border: 0; border-radius: 999px; padding: .45rem 1.1rem; cursor: pointer; }
+.switch button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+.hero-body { padding-top: clamp(48px, 9vw, 110px); padding-right: clamp(0px, 15vw, 150px); }
+.hero h1 { font-size: clamp(3.6rem, 15vw, 8.5rem); line-height: 1; letter-spacing: .02em; }
+.tagline { font-family: var(--display); font-size: clamp(1.15rem, 3.4vw, 1.65rem); color: var(--accent); margin: .7rem 0 0; max-width: none; }
+.sayings { margin-top: 1.6rem; font-family: var(--display); font-size: clamp(1.25rem, 3.6vw, 1.9rem); line-height: 1.4; max-width: 22em; color: var(--fg); }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1.1rem 2rem; margin: clamp(32px, 6vw, 60px) 0 0; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+.facts div { min-width: 0; }
+.facts dt { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: .25rem 0 0; font-family: var(--display); font-size: 1.2rem; line-height: 1.3; }
+
+/* Sections */
+.sec { padding-block: clamp(56px, 9vw, 104px); border-top: 1px solid var(--line); }
+.intro { margin-top: 1.4rem; }
+.split { display: grid; gap: 2rem clamp(2rem, 6vw, 4.5rem); grid-template-columns: 1fr; margin-top: 2rem; }
+.split > * { min-width: 0; }
+@media (min-width: 860px) { .split { grid-template-columns: 1.15fr .85fr; } }
+.pull { margin: 0; padding-left: 1.2rem; border-left: 2px solid var(--accent); font-family: var(--display); font-size: clamp(1.25rem, 3vw, 1.7rem); line-height: 1.55; color: var(--accent); }
+
+.more { margin: 1.6rem 0 0; }
+.linkbtn { display: inline-block; font: 500 .95rem var(--body); letter-spacing: .02em; text-decoration: none; color: var(--on-accent); background: var(--accent); border-radius: 999px; padding: .65rem 1.3rem; }
+.linkbtn:hover { opacity: .88; }
+.flink { color: var(--accent); text-decoration: none; }
+.flink:hover { text-decoration: underline; }
+
+/* Histoire */
+.story { list-style: none; margin: 2.4rem 0 0; padding: 0 0 0 1.6rem; border-left: 1px solid var(--line); }
+.story li { position: relative; padding: 0 0 2.4rem; }
+.story li:last-child { padding-bottom: 0; }
+.story li::before { content: ""; position: absolute; left: calc(-1.6rem - 5px); top: .55rem; width: 9px; height: 9px; border-radius: 50%; background: var(--accent2); }
+.story li.ken::before { background: var(--accent); box-shadow: 0 0 0 5px var(--bg2); }
+.story h3 { margin-bottom: .5rem; }
+.story p { max-width: 64ch; }
+.tag { display: inline-block; margin-left: .7rem; padding: .1rem .7rem; border: 1px solid var(--accent); border-radius: 999px; font-family: var(--body); font-size: .68rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); vertical-align: .2em; }
+.say { font-family: var(--display); color: var(--fg); }
+
+/* Deux voix */
+.voices { display: grid; gap: 1.6rem 3rem; grid-template-columns: 1fr; margin-top: 2.4rem; }
+@media (min-width: 800px) { .voices { grid-template-columns: 1fr 1fr; } }
+.voice { min-width: 0; padding: 1.6rem 0; border-top: 2px solid var(--line); transition: opacity .5s ease, border-color .5s ease; }
+.voice .k { display: block; font-family: var(--display); font-size: 3rem; line-height: 1; margin-bottom: .8rem; }
+.voice.ren .k { color: var(--ren-c); }
+.voice.ken .k { color: var(--ken-c); }
+:root:not([data-mode="ken"]) .voice.ren, :root[data-mode="ken"] .voice.ken { border-top-color: var(--accent); }
+:root:not([data-mode="ken"]) .voice.ken, :root[data-mode="ken"] .voice.ren { opacity: .62; }
+.voice h3 { font-size: 1.7rem; margin-bottom: .2rem; }
+.voice .role { font-size: .75rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin: 0 0 1rem; }
+.voice ul { margin: 1rem 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: .4rem .6rem; }
+.voice li { padding: .2rem .8rem; border: 1px solid var(--line); border-radius: 999px; font-size: .85rem; color: var(--soft); }
+.voice .goal { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.voice .goal b { display: block; font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; font-weight: 500; color: var(--muted); margin-bottom: .3rem; }
+.voice .goal span { font-family: var(--display); font-size: 1.25rem; line-height: 1.4; color: var(--fg); }
+.common { margin-top: 2.2rem; font-family: var(--display); font-size: clamp(1.15rem, 2.6vw, 1.45rem); line-height: 1.6; max-width: 34em; }
+.again { margin-top: 1.8rem; }
+
+/* Fin */
+.end-lines { display: grid; gap: 1.4rem 3rem; grid-template-columns: 1fr; margin-top: 2.2rem; }
+@media (min-width: 800px) { .end-lines { grid-template-columns: 1fr 1fr; } }
+.end-lines > div { min-width: 0; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+.end-lines small { display: block; font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: .4rem; }
+.end-lines p { margin: 0; font-family: var(--display); font-size: clamp(1.2rem, 3vw, 1.7rem); line-height: 1.45; color: var(--fg); }
+footer { padding-block: 2rem calc(2rem + 8px); border-top: 1px solid var(--line); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  body, .hero, .switch, .voice { transition: none; }
+}
+</style>
+
+<aside class="hrp" aria-label="Informations HRP">
+  <div class="wrap hrp-in">
+    <span class="hrp-tag">HRP</span>
+    <dl class="hrp-list">
+      <div><dt>Pseudo Minecraft</dt><dd><code>MelloCmonNom</code><button type="button" class="copy" data-copy="MelloCmonNom">Copier</button></dd></div>
+      <div><dt>Pseudo Discord</dt><dd><code>kcmello50</code><button type="button" class="copy" data-copy="kcmello50">Copier</button></dd></div>
+    </dl>
+  </div>
+</aside>
+
+<header class="hero">
+  <canvas id="petals" aria-hidden="true"></canvas>
+  <div class="vert" aria-hidden="true"><span data-only="ren">花</span><span data-only="ken">灰</span></div>
+  <div class="wrap">
+    <div class="bar">
+      <nav class="topnav" aria-label="Sections">
+        <a href="#identite">Identité</a>
+        <a href="#clan">Clan</a>
+        <a href="#histoire">Histoire</a>
+        <a href="#voix">Deux voix</a>
+      </nav>
+      <div class="switch" role="group" aria-label="Choisir la voix">
+        <button type="button" class="modebtn" data-set="ren" aria-pressed="true">Ren</button>
+        <button type="button" class="modebtn" data-set="ken" aria-pressed="false">Ken</button>
+      </div>
+    </div>
+    <div class="hero-body">
+      <p class="eyebrow" style="margin-bottom:.6rem">Candidature Naruto RP</p>
+      <h1>Ren Suzu</h1>
+      <p class="tagline">Deux voix, un seul bandeau</p>
+      <p class="sayings" data-only="ren">« Je veux devenir Hokage et agrandir le pays du Feu. »</p>
+      <p class="sayings" data-only="ken">« Konoha doit disparaître. »</p>
+    </div>
+    <dl class="facts" id="identite">
+      <div><dt>Nom</dt><dd>Ren Suzu</dd></div>
+      <div><dt>Âge</dt><dd>12 ans</dd></div>
+      <div><dt>Clan</dt><dd>Suzu</dd></div>
+      <div><dt>Village</dt><dd>Konoha</dd></div>
+      <div><dt>Grade</dt><dd>Genin</dd></div>
+      <div><dt>Objectif</dt><dd><span data-only="ren">Devenir Hokage</span><span data-only="ken">Éradiquer Konoha</span></dd></div>
+    </dl>
+  </div>
+</header>
+
+<main>
+  <section class="sec" id="clan">
+    <div class="wrap">
+      <p class="eyebrow"><span class="k">鈴</span> Le clan Suzu</p>
+      <h2>Le clan des fleurs derrière les cascades</h2>
+      <div class="split">
+        <div>
+          <p>Les Suzu ne viennent pas du pays du Feu. Ils vivaient au pays des Cascades, dans une vallée cachée derrière un rideau de chutes d'eau, autour d'un village, Suzunosato, et d'un jardin sacré. Au centre se dressait l'Arbre-Mère, un arbre immense que le clan considérait comme la source de son chakra.</p>
+          <p>Les fleurs faisaient partie de tous les aspects de leur vie : soin, combat, artisanat, agriculture. Les Suzu étaient peu nombreux, mais redoutés pour leur façon de se battre et de s'infiltrer : une végétation qui masque la présence, un sol qui devient piège, un décor qui se referme sur l'adversaire.</p>
+          <p>Un soir de printemps, la vallée a été envahie par plusieurs forces sans bannière. Le feu a pris les jardins en premier. L'Arbre-Mère a brûlé pendant trois jours, et les responsables n'ont jamais été clairement identifiés. Les survivants se sont dispersés, traqués, et le nom Suzu est devenu une légende.</p>
+        </div>
+        <div>
+          <blockquote class="pull">Il reste aujourd'hui une seule petite famille qui porte encore le sang des Suzu : celle de Ren.</blockquote>
+          <p class="more"><a class="linkbtn" href="https://mello50.github.io/Clan-suzu/" target="_blank" rel="noopener">Lire le lore complet du clan Suzu ↗</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="histoire">
+    <div class="wrap">
+      <p class="eyebrow"><span class="k">史</span> Histoire</p>
+      <h2>De la forêt de Konoha au bandeau frontal</h2>
+      <ul class="story">
+        <li>
+          <h3>Naissance</h3>
+          <p>Ren naît à Konoha, dans une petite maison au bord d'un quartier calme, au sein de la dernière famille Suzu : son père Kōsei, herboriste, sa mère Mio, et sa grand-mère Tsuta, gardienne de l'herbier du clan. Ils se sont installés au village après avoir fui le pays des Cascades et vivent sous leur vrai nom : personne à Konoha ne sait ce que fut le nom Suzu.</p>
+          <p>Selon la tradition du clan, on plante une fleur de naissance. Sans jardin sacré, Kōsei emmène le nouveau-né dans la forêt du pays du Feu et la plante à l'abri des regards, au pied d'un vieil arbre. Les graines de l'Arbre-Mère, elles, restent enfermées : on ne les risque pas.</p>
+        </li>
+        <li>
+          <h3>Une enfance à Konoha</h3>
+          <p>Ren grandit dans les rues du village, entre la boutique de remèdes de sa mère et les herbes de son père. Il connaît les voisins, les marchands, les enfants du quartier, et il regarde partir les shinobi en mission avec des yeux grands ouverts. Chaque année, la famille retourne voir la fleur dans la forêt. Tsuta lui raconte la vallée et les cascades en lui apprenant à reconnaître les plantes. Une règle revient chaque soir : ne jamais montrer à personne ce que les fleurs peuvent faire.</p>
+        </li>
+        <li>
+          <h3>L'Académie et la Première Floraison</h3>
+          <p>À six ans, Ren entre à l'Académie. Il est calme, appliqué et se fait vite des amis. À sept ans, une nuit, dans la forêt, près de sa fleur de naissance, la famille organise sa Première Floraison. Il fait éclore sa première fleur de chakra, petite et pâle. Sa mère pleure. Tsuta dit que le clan a eu un petit moment de vie, ce soir-là.</p>
+        </li>
+        <li>
+          <h3>Le rêve</h3>
+          <p>Lors d'une fête du village, Ren voit le Hokage saluer la foule. Tsuta lui a raconté pourquoi la famille a dû fuir sa vallée : aucun pays ne protégeait le clan. Konoha, lui, a ouvert ses portes. Ren en tire une idée : si le pays du Feu s'étendait pour couvrir tout le monde, plus aucune famille n'aurait à se cacher. Il veut devenir Hokage, et agrandir le pays du Feu.</p>
+        </li>
+        <li class="ken">
+          <h3>La mort évitée <span class="tag">Ken apparaît</span></h3>
+          <p>À l'automne, Ren accompagne son père cueillir des herbes en lisière de forêt. Une bande de ninjas déserteurs les surprend. Kōsei est blessé, Ren est frappé et laissé pour mort, le cœur arrêté.</p>
+          <p>C'est à ce moment-là que quelque chose s'éveille. Dans le noir, une voix calme dit : <span class="say">« Pas encore. »</span> Puis plus rien, jusqu'à l'arrivée d'une patrouille de Konoha. Un ninja médecin le ramène à la vie, et il sauve aussi son père.</p>
+          <p>À son réveil, Ren a perdu des heures. Il y a des fleurs qu'il ne se souvient pas d'avoir fait pousser, et une voix dans sa tête qui se présente : <span class="say">« Appelle-moi Ken. »</span> Ken ne dit qu'une chose, souvent : <span class="say">« Konoha doit disparaître. »</span> Il ne donne aucune raison.</p>
+          <p>Tsuta fouille l'herbier et les récits de la vallée : rien de tel n'a jamais touché le clan. Elle conseille de ne parler de Ken à personne.</p>
+        </li>
+        <li>
+          <h3>La perte</h3>
+          <p>Tsuta s'éteint pendant l'hiver. On plante une fleur pour elle dans la forêt, à côté de celle de Ren, qu'on laisse pousser sans la couper. Ren hérite de l'herbier. C'est la première fois que Ren et Ken sont d'accord sur quelque chose : perdre un être cher ne doit plus jamais arriver. Ils ne l'entendent pas de la même façon.</p>
+        </li>
+        <li>
+          <h3>Deux voix à l'Académie</h3>
+          <p>Ren reste le même enfant chaleureux : bon en théorie, moyen au combat, et ses fleurs passent pour un simple passe-temps de jardinier. Mais Ken surgit parfois : un regard trop froid, une remarque trop précise sur les défenses du village. Un instructeur remarque ces changements d'humeur sans comprendre. Ren apprend à vivre avec cette voix, en se répétant qu'il l'a croisée au bord de la mort et qu'elle finira par se taire.</p>
+        </li>
+        <li>
+          <h3>Genin</h3>
+          <p>Le jour de l'examen, Ren réussit l'épreuve sans montrer ce que son clan sait faire. Quand l'instructeur lui remet son bandeau frontal de Konoha, deux choses se produisent en même temps.</p>
+        </li>
+      </ul>
+      <div class="end-lines">
+        <div><small>Ren</small><p>Il a les larmes aux yeux : c'est le premier pas vers le grade de Hokage.</p></div>
+        <div><small>Ken</small><p>« Maintenant, on est à l'intérieur. »</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="voix">
+    <div class="wrap">
+      <p class="eyebrow"><span class="k">二</span> Deux voix</p>
+      <h2>Un seul corps, deux objectifs</h2>
+      <div class="voices">
+        <article class="voice ren">
+          <span class="k" aria-hidden="true">花</span>
+          <h3>Ren</h3>
+          <p class="role">La voix d'origine</p>
+          <p>Chaleureux, calme et appliqué. Il aime Konoha, ses rues et ses habitants. Il cache ce que son clan sait faire, mais il croit sincèrement qu'un grand pays peut protéger tout le monde.</p>
+          <ul><li>Chaleureux</li><li>Appliqué</li><li>Loyal</li><li>Ambitieux</li></ul>
+          <div class="goal"><b>Objectif</b><span>Devenir Hokage et agrandir le pays du Feu, pour que plus aucune famille n'ait à se cacher.</span></div>
+        </article>
+        <article class="voice ken">
+          <span class="k" aria-hidden="true">灰</span>
+          <h3>Ken</h3>
+          <p class="role">La voix née au bord de la mort</p>
+          <p>Froid, patient et sûr de lui. Il parle peu, observe beaucoup, et connaît les défenses du village mieux que Ren ne le voudrait. Il ne donne aucune raison à sa haine.</p>
+          <ul><li>Froid</li><li>Patient</li><li>Calculateur</li><li>Silencieux</li></ul>
+          <div class="goal"><b>Objectif</b><span>Éradiquer Konoha : plus une maison, plus un clan, plus un souvenir debout.</span></div>
+        </article>
+      </div>
+      <p class="common">Ils ne se parlent pas toujours, mais ils avancent ensemble : plus Ren monte en grade, plus Ken s'approche du cœur du village.</p>
+      <div class="again switch" role="group" aria-label="Choisir la voix">
+        <button type="button" class="modebtn" data-set="ren" aria-pressed="true">Laisser parler Ren</button>
+        <button type="button" class="modebtn" data-set="ken" aria-pressed="false">Laisser parler Ken</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Candidature Naruto RP · Ren Suzu · Genin de Konoha · <a class="flink" href="https://mello50.github.io/Clan-suzu/" target="_blank" rel="noopener">Lore du clan Suzu ↗</a></div>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var palettes = {
+    ren: ['rgba(178,64,111,.55)', 'rgba(123,104,196,.45)', 'rgba(79,127,110,.5)'],
+    ken: ['rgba(200,190,185,.5)', 'rgba(239,122,85,.5)', 'rgba(143,169,173,.45)']
+  };
+  var mode = 'ren';
+
+  /* Pétales (Ren) et cendres (Ken) */
+  var cv = document.getElementById('petals');
+  var ctx = cv.getContext('2d');
+  var hero = cv.parentElement;
+  var W = 0, H = 0, petals = [];
+  function color() {
+    var p = palettes[mode];
+    return p[Math.floor(Math.random() * p.length)];
+  }
+  function make(anywhere) {
+    return {
+      x: Math.random() * W, y: anywhere ? Math.random() * H : -20,
+      r: 4 + Math.random() * 6, vy: 0.25 + Math.random() * 0.5, vx: -0.1 + Math.random() * 0.3,
+      a: Math.random() * 6.28, va: (Math.random() - 0.5) * 0.02, ph: Math.random() * 6.28,
+      c: color()
+    };
+  }
+  function size() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = hero.clientWidth; H = hero.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var n = Math.round(Math.min(40, W / 26));
+    petals = [];
+    for (var i = 0; i < n; i++) petals.push(make(true));
+  }
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < petals.length; i++) {
+      var p = petals[i];
+      var r = mode === 'ken' ? p.r * 0.5 : p.r;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.a);
+      ctx.fillStyle = p.c;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, r, mode === 'ken' ? r : r * 0.55, 0, 0, 6.283);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+  function tick() {
+    if (!document.hidden) {
+      for (var i = 0; i < petals.length; i++) {
+        var p = petals[i];
+        p.y += p.vy;
+        p.x += p.vx + Math.sin(p.y / 60 + p.ph) * 0.3;
+        p.a += p.va;
+        if (p.y > H + 20 || p.x > W + 20) petals[i] = make(false);
+      }
+      draw();
+    }
+    requestAnimationFrame(tick);
+  }
+  size();
+  draw();
+  if (!reduce) tick();
+  window.addEventListener('resize', function () { size(); draw(); });
+
+  /* Copier les pseudos */
+  function selectText(node) {
+    var r = document.createRange();
+    r.selectNodeContents(node);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(r);
+  }
+  var copies = document.querySelectorAll('.copy');
+  for (var c = 0; c < copies.length; c++) {
+    copies[c].addEventListener('click', function (e) {
+      var btn = e.currentTarget;
+      var text = btn.getAttribute('data-copy');
+      function done() {
+        btn.textContent = 'Copié';
+        setTimeout(function () { btn.textContent = 'Copier'; }, 1500);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { selectText(btn.previousElementSibling); });
+      } else {
+        selectText(btn.previousElementSibling);
+      }
+    });
+  }
+
+  /* Interrupteur Ren / Ken */
+  function setMode(m) {
+    mode = m;
+    if (m === 'ken') root.setAttribute('data-mode', 'ken'); else root.removeAttribute('data-mode');
+    var btns = document.querySelectorAll('.modebtn');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].setAttribute('aria-pressed', btns[i].getAttribute('data-set') === m ? 'true' : 'false');
+    }
+    for (var j = 0; j < petals.length; j++) petals[j].c = color();
+    draw();
+  }
+  var all = document.querySelectorAll('.modebtn');
+  for (var b = 0; b < all.length; b++) {
+    all[b].addEventListener('click', function (e) { setMode(e.currentTarget.getAttribute('data-set')); });
+  }
+})();
+</script>
+
+</body></html>
